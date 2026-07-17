@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screening Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page-shell">
+        <div class="card wide glass">
+            <h1>Screening Result</h1>
+            <p class="subtitle"><strong>Resume:</strong> {{ filename }}</p>
+
+            <div class="kpi-row">
+                <div class="kpi">
+                    <span>Decision</span>
+                    <strong>{{ decision }}</strong>
+                </div>
+                <div class="kpi">
+                    <span>Best Fit</span>
+                    <strong>{{ analysis.best_fit.occupation if analysis.best_fit else "N/A" }}</strong>
+                </div>
+                <div class="kpi">
+                    <span>Top Match</span>
+                    <strong>{{ analysis.statistics.top_match_percentage }}%</strong>
+                </div>
+                <div class="kpi">
+                    <span>Mean Match</span>
+                    <strong>{{ analysis.statistics.mean_match_percentage }}%</strong>
+                </div>
+            </div>
+
+            <h3>Occupation Match Scores</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Occupation</th>
+                        <th>Match %</th>
+                        <th>Matched Skills</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in analysis.occupation_scores %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ row.occupation }}</td>
+                        <td>{{ row.match_percentage }}%</td>
+                        <td>{{ ", ".join(row.matched_skills) if row.matched_skills else "None detected" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h3>Statistical Summary</h3>
+            <p class="summary">
+                Compared {{ analysis.statistics.total_occupations_compared }} occupations.
+                Highest score: {{ analysis.statistics.top_match_percentage }}%,
+                lowest score: {{ analysis.statistics.low_match_percentage }}%.
+                Strongest detected skills: {{ ", ".join(analysis.statistics.strongest_skills_detected) if analysis.statistics.strongest_skills_detected else "N/A" }}.
+            </p>
+
+            <div class="footer-links">
+                <a href="/" class="link-btn">Screen Another Resume</a>
+                <a href="/admin" class="link-btn">View Admin Dashboard</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

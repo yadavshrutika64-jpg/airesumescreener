@@ -1,0 +1,36 @@
+[
+  {
+    "resume_name": "nexo-ai-1766946899984.png",
+    "decision": "Rejected",
+    "best_fit_role": "Frontend Developer",
+    "best_fit_score": 11.11,
+    "mean_score": 2.78,
+    "top_skills": [
+      "ui"
+    ],
+    "id": "738f89e9-d942-485d-9ba0-5c88e3f9fef0",
+    "timestamp": "2026-04-08T20:21:40.254865"
+  },
+  {
+    "resume_name": "dsa.java",
+    "decision": "Rejected",
+    "best_fit_role": "Backend Developer",
+    "best_fit_score": 11.11,
+    "mean_score": 2.78,
+    "top_skills": [
+      "java"
+    ],
+    "id": "85e66342-0b93-4f7d-bef5-70205c07960b",
+    "timestamp": "2026-04-08T20:24:36.362151"
+  },
+  {
+    "resume_name": "python.py",
+    "decision": "Rejected",
+    "best_fit_role": "Data Scientist",
+    "best_fit_score": 0.0,
+    "mean_score": 0.0,
+    "top_skills": [],
+    "id": "53fc22cb-dcf9-4903-9131-1cbb1c5bae31",
+    "timestamp": "2026-04-08T20:25:11.527820"
+  }
+]

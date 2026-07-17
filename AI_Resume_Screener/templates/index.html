@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Screener</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-shell">
+        <div class="card glass">
+            <h1>AI Resume Screener</h1>
+            <p class="subtitle">Analyze resumes against multiple occupations with statistical insights.</p>
+
+            <form action="/upload" method="post" enctype="multipart/form-data" class="form">
+                <label for="resume">Upload Resume</label>
+                <input id="resume" type="file" name="resume" required>
+
+                <label for="job_desc">Job Description</label>
+                <textarea id="job_desc" name="job_desc" placeholder="Paste job description here..." required></textarea>
+
+                <button type="submit" class="btn-primary">Analyze Resume</button>
+            </form>
+
+            <div class="footer-links">
+                <a href="/admin" class="link-btn">Open Admin Dashboard</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
