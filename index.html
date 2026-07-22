@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page-shell">
+        <div class="card wide glass">
+            <h1>Admin Dashboard</h1>
+            <p class="subtitle">Track who was approved, rejected, or marked for review.</p>
+
+            <div class="kpi-row">
+                <div class="kpi">
+                    <span>Total</span>
+                    <strong>{{ stats.total }}</strong>
+                </div>
+                <div class="kpi">
+                    <span>Approved</span>
+                    <strong>{{ stats.approved_count }}</strong>
+                </div>
+                <div class="kpi">
+                    <span>Rejected</span>
+                    <strong>{{ stats.rejected_count }}</strong>
+                </div>
+                <div class="kpi">
+                    <span>Review Needed</span>
+                    <strong>{{ stats.review_needed_count }}</strong>
+                </div>
+            </div>
+
+            <form action="/admin" method="get" class="admin-toolbar">
+                <input type="text" name="q" value="{{ request.args.get('q', '') }}" placeholder="Search by resume or role">
+                <select name="decision">
+                    <option value="">All Decisions</option>
+                    <option value="Approved" {% if request.args.get('decision') == 'Approved' %}selected{% endif %}>Approved</option>
+                    <option value="Rejected" {% if request.args.get('decision') == 'Rejected' %}selected{% endif %}>Rejected</option>
+                    <option value="Review Needed" {% if request.args.get('decision') == 'Review Needed' %}selected{% endif %}>Review Needed</option>
+                </select>
+                <button type="submit" class="link-btn">Apply</button>
+                <a
+                    href="/admin/export?decision={{ request.args.get('decision', '')|urlencode }}&q={{ request.args.get('q', '')|urlencode }}"
+                    class="link-btn"
+                >
+                    Export CSV
+                </a>
+            </form>
+
+            <p class="subtitle">Showing {{ stats.filtered_total }} record(s).</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Resume</th>
+                        <th>Decision</th>
+                        <th>Best Fit Role</th>
+                        <th>Best Fit Score</th>
+                        <th>Mean Score</th>
+                        <th>Timestamp</th>
+                        <th>Override</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in stats.records %}
+                    <tr>
+                        <td>{{ row.resume_name }}</td>
+                        <td>{{ row.decision }}</td>
+                        <td>{{ row.best_fit_role }}</td>
+                        <td>{{ row.best_fit_score }}%</td>
+                        <td>{{ row.mean_score }}%</td>
+                        <td>{{ row.timestamp }}</td>
+                        <td>
+                            <form action="/admin/update-decision" method="post" class="inline-form">
+                                <input type="hidden" name="record_id" value="{{ row.id }}">
+                                <input type="hidden" name="decision_filter" value="{{ request.args.get('decision', '') }}">
+                                <input type="hidden" name="q" value="{{ request.args.get('q', '') }}">
+                                <select name="new_decision">
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                    <option value="Review Needed">Review Needed</option>
+                                </select>
+                                <button type="submit" class="link-btn small">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7">No records found for current filter.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="footer-links">
+                <a href="/" class="link-btn">Back to Screener</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
